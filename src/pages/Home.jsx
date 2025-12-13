@@ -19,12 +19,9 @@ export const Home = () => {
 	return (
 		<div className="container d-flex flex-column" >
 			
-			<div className="d-flex justify-content-end" >
-				<button className="btn btn-success text-white rounded-2">Add new contact</button>
-			</div>
-			{contac.map((contacItem) => {
+			{contac.map((contacItem, key) => {
 				return (
-			<ContacCard 
+			<ContacCard key={key}
 				name={contacItem.name}
 				phone={contacItem.phone}
 				email={contacItem.email}
