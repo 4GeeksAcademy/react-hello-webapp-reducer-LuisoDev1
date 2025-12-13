@@ -31,7 +31,6 @@ const ContacCard = () => {
 
 				<div className="ms-5" >
 					<p className="list-group-item p-0 m-0 mb-2" style={pStyle}> 
-                        <i/> 
                        { user.name || "Mike Amendolla" }
                     </p>
 					<p className="list-group-item p-0 m-0" style={pStyle}> 

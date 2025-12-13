@@ -1,25 +1,24 @@
-import {useState} from "react"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
-const NewContacts = () => {
-    
+const NewContacts = () => {    
     const [newContact, setNewContact] = useState({})
+    const navigate = useNavigate()
 
-    const handleImput = async (event) => {
-        setNewContact({ ...newContact, [event.target.id]: event.target.value })
+    const handleImput = (event) => {
+        setNewContact({ ...newContact, [event.target.name]: event.target.value })
     }
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        const apiUrl = import.meta.env.VITE_API_URL +"/contacts";
-        
-        const response = await fetch(apiUrl, {
+        event.preventDefault();      
+        const response = await fetch('https://playground.4geeks.com/contact/agendas/agenda_luis/contacts', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(newContact)
+        body: JSON.stringify(newContact)        
         })
+
         const data = await response.json();
         if (response.ok) {
         navigate("/")
@@ -32,25 +31,25 @@ const NewContacts = () => {
         label: "Full Name", 
         type: "text", 
         placeholder: "Full Name", 
-        name: "name" 
+        id: "name" 
     },
     {   
         label: "Email", 
         type: "email", 
         placeholder: "Enter email", 
-        name: "email" 
+        id: "email" 
     },
     { 
         label: "Phone", 
         type: "text", 
         placeholder: "Enter phone", 
-        name: "phone" 
+        id: "phone" 
     },
     { 
         label: "Address", 
         type: "text", 
         placeholder: "Enter address", 
-        name: "address" 
+        id: "address" 
     }
   ]
 
@@ -58,20 +57,20 @@ const NewContacts = () => {
     <>
         <div className="d-flex justify-content-center align-items-center flex-column mt-5">
             <h1 className="text-secondary user-select-none">Add New Contact</h1>
-            <form className="d-flex flex-column w-50">
+            <form onSubmit={handleSubmit} className="d-flex flex-column w-50">
             {
-                fields.map((field, index) => (
+                fields.map((item, index) => (
                     <div className="mb-3" key={index}>
-                        <label htmlFor={field.name} className="form-label ps-2 text-muted user-select-none">{field.label}</label>
+                        <label htmlFor={item.id} className="form-label ps-2 text-muted user-select-none">{item.label}</label>
                         <input
-                            type={field.type} 
-                            placeholder={field.placeholder}
-                            id={field.name} 
-                            value={newContact[field.name]}
+                            type={item.type} 
+                            placeholder={item.placeholder}
+                            id={item.id} 
+                            name={item.id}
+                            value={newContact[item.id] || ""}
                             onChange={handleImput}
                             style={{fontSize:"0.8em"}}
-                            className="form-control text-light fst-italic"                            
-                            
+                            className="form-control text-light fst-italic"                           
                         />
                     </div>
                 ))

@@ -4,7 +4,7 @@ import {createBrowserRouter, createRoutesFromElements,Route,} from "react-router
 import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
-import NewContacts from "./pages/NewContacts";
+import { NewContacts } from "./pages/NewContacts";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
