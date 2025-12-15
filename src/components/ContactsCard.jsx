@@ -9,18 +9,18 @@ const ContactsCard = (props) => {
 
   return (
     <div>
-        <div className="d-flex me-auto w-100 flex-row px-3 py-2 mt-1"
-          style={{ border: "1px solid #000" }}
+        <div className="d-flex m-auto card shadow-lg w-50 flex-row px-3 py-2 mt-1"
+          style={{ border: "1px solid #a3a3a3ff", borderRadius:"2px" }}
         >
             <div className="d-flex justify-content-center align-items-center 
-              bg-secondary rounded-circle ms-2 mt-2 me-1 p-0 pb-1" 
-              style={{ width: "120px", height: "120px" }}
+              rounded-circle ms-2 mt-1 me-1 pb-2" 
+              style={{ width: "120px", height: "120px", backgroundColor:"#e1e1e1ff" }}
             >
-                <i className="fa-solid fa-user-astronaut fa-5x text-white"></i>
+                <i className="fa-solid fa-user fa-5x text-white"></i>
             </div>
 
 
-          <div className="ms-5">
+          <div className="ms-4">
             <p className="list-group-item p-0 m-0 mb-2" style={pStyle}>
               {props.name || "Mike Amendolla"}
             </p>
