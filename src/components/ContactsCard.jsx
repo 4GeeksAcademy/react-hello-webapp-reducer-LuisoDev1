@@ -1,4 +1,23 @@
+import { useState } from "react";
+
 const ContactsCard = (props) => {
+
+  const [isEditing, setIsEditing] = useState(false)
+  const [editDada, setEditDada] = useState({
+    name: props.name,
+    email: props.email,
+    phone: props.phone,
+    address: props.address
+  })
+
+  const handleChange = (e) => {
+    const name = e.target
+    const value = e.target
+    setEditDada({ ...editDada, [name]: value })
+
+    // Aun falta por implementar logica para editar contactos
+
+  }
 
   const pStyle = {
     borderRadius: "none",

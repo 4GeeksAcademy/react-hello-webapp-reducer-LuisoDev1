@@ -17,7 +17,7 @@ export const Home = () => {
 			{ method: "DELETE" }
 			
 		);
-		console.log('ESTATUS DELETE:', resp.status)
+		console.log('ESTADO DEL DELETE:', resp.status)
 
 		if (resp.ok){
 			setContact(contact.filter((item) => item.id !== id))
