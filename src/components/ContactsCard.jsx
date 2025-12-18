@@ -2,22 +2,7 @@ import { useState } from "react";
 
 const ContactsCard = (props) => {
 
-  const [isEditing, setIsEditing] = useState(false)
-  const [editDada, setEditDada] = useState({
-    name: props.name,
-    email: props.email,
-    phone: props.phone,
-    address: props.address
-  })
 
-  const handleChange = (e) => {
-    const name = e.target
-    const value = e.target
-    setEditDada({ ...editDada, [name]: value })
-
-    // Aun falta por implementar logica para editar contactos
-
-  }
 
   const pStyle = {
     borderRadius: "none",
@@ -28,8 +13,8 @@ const ContactsCard = (props) => {
 
   return (
     <div>
-        <div className="d-flex m-auto card shadow-lg w-50 flex-row px-3 py-2 mt-1"
-          style={{ border: "1px solid #a3a3a3ff", borderRadius:"2px" }}
+        <div className="d-flex m-auto card shadow-lg flex-row px-3 py-2 mt-1"
+          style={{ width:"55%", border: "1px solid #a3a3a3ff", borderRadius:"2px" }}
         >
             <div className="d-flex justify-content-center align-items-center 
               rounded-circle ms-2 mt-1 me-1 pb-2" 
@@ -41,7 +26,7 @@ const ContactsCard = (props) => {
 
           <div className="ms-4">
             <p className="list-group-item p-0 m-0 mb-2" style={pStyle}>
-              {props.name || "Mike Amendolla"}
+              { props.name || "Mike Amendolla"}
             </p>
 
             <p className="list-group-item p-0 m-0" style={pStyle}>
@@ -60,9 +45,9 @@ const ContactsCard = (props) => {
             </p>
           </div>
 
-          <div className="ms-auto me-4 p-2 d-flex justify-content-between">
-                <i className="fa-solid fa-pen me-4 text-black"></i>
-                <i className="fa-solid fa-trash-can text-danger" onClick={ () => props.onDelete(props.id)} style={{cursor:"pointer"}} ></i>
+          <div className="ms-auto me-1 p-2 d-flex justify-content-between">
+                <i className="fa-solid fa-pen me-4 text-black" onClick={props.onEdit} style={{cursor:"pointer"}} ></i>
+                <i className="fa-solid fa-trash-can text-danger" onClick={() => props.onDelete(props.id)} style={{cursor:"pointer"}} ></i>
             </div>            
         </div>
     </div>

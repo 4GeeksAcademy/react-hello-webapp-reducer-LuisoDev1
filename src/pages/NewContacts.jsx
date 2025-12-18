@@ -2,7 +2,6 @@ import {useState} from "react"
 import { useNavigate } from "react-router-dom"
 
 const NewContacts = () => {
-    
     const [newContact, setNewContact] = useState({
         name: "",
         phone: "",
@@ -13,18 +12,13 @@ const NewContacts = () => {
     const navigate = useNavigate()
 
     const handleImput = async (event) => {
-        const name = event.target.name
-        const value = event.target.value
-        setNewContact({ ...newContact, [name]: value })
+        setNewContact({ ...newContact, [event.target.name]: event.target.value })
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         /*const response = import.meta.env.VITE_API_URL +"/contacts";*/
-
         console.log(newContact)
-
         const response = await fetch(`https://playground.4geeks.com/contact/agendas/agenda_luis/contacts`, {
         method: "POST",
         headers: {
