@@ -1,130 +1,132 @@
 /*import rigoImageUrl from "../assets/img/rigo-baby.jpg";*/
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { useEffect, useState } from "react";
-import ContactsCard  from "../components/ContactsCard.jsx";
+import ContactsCard from "../components/ContactsCard.jsx";
 
 export const Home = () => {
 	const { store, dispatch } = useGlobalReducer()
 	const [isEditing, setIsEditing] = useState(false)
-	const [editingContact, setEditingContact] = useState(null)
+	const [editCurrentContact, setEditCurrentContact] = useState(null)
 	const [formData, setFormData] = useState({
-		full_name: "",
+		name: "",
 		email: "",
 		phone: "",
 		address: "",
 		agenda_slug: "agenda_luis"
 	})
-	
-	//FUNCION QUE HACE EL FETCH A LA API Y ENTREGA DATOS AL STORE
+
 	const fetchApi = async () => {
 		const resp = await fetch(`https://playground.4geeks.com/contact/agendas/agenda_luis/contacts`);
 		const data = await resp.json();
-		dispatch({type:"set_contacts", payload:data.contacts})
-		console.log(data.contacts);
+		dispatch({ type: "set_contacts", payload: data.contacts })
 	}
-	
-	// Aqui la funcion handleDelete borra el contacto usando el id que se le pasa cauendo es llamada en un map 
-	// y actualiza el estado en el store si la respuesta es .ok
+
 	const handleDelete = async (id) => {
 		const resp = await fetch(`https://playground.4geeks.com/contact/agendas/agenda_luis/contacts/${id}`,
-			{ method: "DELETE" }			
+			{ method: "DELETE" }
 		);
-		// console.log('ESTADO DEL DELETE:', resp.status)
 		if (resp.ok) {
 			dispatch({ type: "delete_contact", payload: id })
 		}
-
 	}
-	
 
-	// FUNCION PARA EDITAR
-	const handleEdit = (contact) => {
-		setEditingContact(contact)
+	const handleEdit = (cont) => {
+		setEditCurrentContact(cont)
 		setIsEditing(true)
 		setFormData({
-			full_name: contact.name,
-			email: contact.email,
-			phone: contact.phone,
-			address: contact.address,
+			name: cont.name,
+			email: cont.email,
+			phone: cont.phone,
+			address: cont.address,
 			agenda_slug: "agenda_luis"
 		})
 	}
 
-	// FUNCION PARA GUARDAR 
-	const handleSave =  async () => {
-		const resp = await fetch( `https://playground.4geeks.com/contact/agendas/agenda_luis/contacts/${editingContact.id}`,
+	const handleSave = async () => {
+		const resp = await fetch(`https://playground.4geeks.com/contact/agendas/agenda_luis/contacts/${editCurrentContact.id}`,
 			{
 				method: "PUT",
-				headers: { "Content-Type": "application/json"},	
-				body: JSON.stringify(formData)					
-			}
-		)
-		if(resp.ok) {
-			dispatch({ 
-				type:"update_contact",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(formData)
+			})
+		if (resp.ok) {
+			dispatch({
+				type: "update_contact",
 				payload: {
-					id: editingContact.id,
+					id: editCurrentContact.id,
 					updatedContact: {
-						full_name: formData.full_name,
+						name: formData.name,
 						email: formData.email,
 						phone: formData.phone,
 						address: formData.address
 					}
 				}
-			 })
+			})
 
 			setIsEditing(false);
-			setEditingContact(null);
+			setEditCurrentContact(null);
 		}
-		console.log("PUT STATUS:", resp.status)
 	}
 
 	useEffect(() => {
-			fetchApi();
-		}, []);
+		// Si el store está vacío, agrega un contacto dummy
+		if (store.contacts.length === 0) {
+			dispatch({
+				type: "set_contacts",
+				payload: [{
+					id: "dummy",
+					name: "Mike Amendolla",
+					phone: "(870) 288-4149",
+					email: "mike.ana@example.com",
+					address: "5842 Hillcrest Rd"
+				}]
+			});
+		}
+
+		fetchApi();
+	}, []);
+
 
 	return (
 		<div className="container d-flex flex-column">
-			
-			{/*RENDERIZADO CONDICIONAL SEGUN EL ESTADO DE isEditing se muestra una UI u otra*/}
 			{isEditing ? (
 				<form className="w-50 mx-auto mt-4">
 					<h3 className="text-center mb-3">Edit Contact</h3>
-					<input 
+					<input
 						type="text"
 						className="form-control mb-3"
-						value={formData.full_name}
-						onChange={(e) => setFormData({...formData, full_name: e.target.value})}
+						value={formData.name}
+						onChange={(e) => setFormData({ ...formData, name: e.target.value })}
 						placeholder="name"
 					/>
 
-					<input 
+					<input
 						type="text"
 						className="form-control mb-3"
 						value={formData.email}
-						onChange={(e) => setFormData({...formData, email: e.target.value})}
+						onChange={(e) => setFormData({ ...formData, email: e.target.value })}
 						placeholder="email"
 					/>
 
-					<input 
+					<input
 						type="text"
 						className="form-control mb-3"
 						value={formData.phone}
-						onChange={(e) => setFormData({...formData, phone: e.target.value})}
+						onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
 						placeholder="phone"
 					/>
 
-					<input 
+					<input
 						type="text"
 						className="form-control mb-3"
 						value={formData.address}
-						onChange={(e) => setFormData({...formData, address: e.target.value})}
+						onChange={(e) => setFormData({ ...formData, address: e.target.value })}
 						placeholder="address"
 					/>
 					<button type="button" className="btn btn-secondary w-100" onClick={handleSave}>
 						save
-					</button>					
-				</form>	
+					</button>
+				</form>
 			) : (
 				store.contacts.map((item) => (
 					<ContactsCard
@@ -139,6 +141,6 @@ export const Home = () => {
 					/>
 				))
 			)}
-		</div>		
+		</div>
 	);
-}; 
+};

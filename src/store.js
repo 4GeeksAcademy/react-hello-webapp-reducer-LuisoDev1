@@ -2,6 +2,7 @@ export const initialStore=()=>{
   return{
     message: null,
 
+    // ARRAY DONDE SE GUARDAN LOS CONTACTOS
     contacts: [],
 
     todos: [
@@ -20,12 +21,12 @@ export const initialStore=()=>{
 }
 
 export default function storeReducer(store, action = {}) {
-  switch(action.type){
+  switch(action.type) {
     case 'add_task':
-      const { id,  color } = action.payload
-      return {
+      const { id, color } = action.payload
+        return {
         ...store,
-        todos: store.todos.map((todo) => (todo.id === id ? { ...todo, background: color } : todo))
+        todos: store.todos.map((item) => (item.id === id ? { ...item, background: color } : item))
       };
 
       case "set_contacts":

@@ -1,8 +1,5 @@
-import { useState } from "react";
 
 const ContactsCard = (props) => {
-
-
 
   const pStyle = {
     borderRadius: "none",
